@@ -15,6 +15,7 @@ def bfs(maze: Maze, start: tuple[int, int], goal: tuple[int, int]) -> SearchResu
 
     nodes_explored = 0
     total_neighbors = 0
+    explored_order = []
 
     start_time = time.time()
 
@@ -29,7 +30,8 @@ def bfs(maze: Maze, start: tuple[int, int], goal: tuple[int, int]) -> SearchResu
                 path=reconstruct_path(current_node),
                 nodes_explored=nodes_explored,
                 execution_time=end_time - start_time,
-                branching_factor=branching_factor
+                branching_factor=branching_factor,
+                explored_order=explored_order
             )
 
         if current_node.state in explored:
@@ -38,6 +40,7 @@ def bfs(maze: Maze, start: tuple[int, int], goal: tuple[int, int]) -> SearchResu
 
         explored.add(current_node.state)
         nodes_explored += 1
+        explored_order.append(current_node.state)
 
         for action in ACTIONS:
             new_row = current_node.state[0] + action[0]

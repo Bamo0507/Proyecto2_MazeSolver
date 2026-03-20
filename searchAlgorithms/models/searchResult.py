@@ -7,3 +7,4 @@ class SearchResult:
     nodes_explored: int
     execution_time: float
     branching_factor: float
+    explored_order: list[tuple[int, int]]
