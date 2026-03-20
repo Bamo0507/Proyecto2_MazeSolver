@@ -1,0 +1,54 @@
+import time
+from loadMaze.maze import Maze
+from searchAlgorithms.models.node import Node
+from searchAlgorithms.models.queueStructures import Priority
+from searchAlgorithms.models.searchResult import SearchResult
+from searchAlgorithms.utils import reconstruct_path, ACTIONS
+
+
+def astar(maze: Maze, start: tuple[int, int], goal: tuple[int, int], heuristic) -> SearchResult:
+    exploredPending = Priority()
+    explored = set()
+
+    start_node = Node(state=start)
+    exploredPending.add(start_node, heuristic(start, goal))
+
+    nodes_explored = 0
+    total_neighbors = 0
+
+    start_time = time.time()
+
+    while not exploredPending.empty():
+        current_node = exploredPending.pop()[0]
+
+        if current_node.state == goal:
+            end_time = time.time()
+            branching_factor = total_neighbors / nodes_explored if nodes_explored > 0 else 0
+            return SearchResult(
+                path=reconstruct_path(current_node),
+                nodes_explored=nodes_explored,
+                execution_time=end_time - start_time,
+                branching_factor=branching_factor
+            )
+
+        if current_node.state in explored:
+            # no repetimos nodos ya explorados
+            continue
+
+        explored.add(current_node.state)
+        nodes_explored += 1
+
+        for action in ACTIONS:
+            new_row = current_node.state[0] + action[0]
+            new_col = current_node.state[1] + action[1]
+
+            if maze.is_walkable(new_row, new_col) and (new_row, new_col) not in explored:
+                neighbor_node = Node(
+                    state=(new_row, new_col),
+                    parent=current_node,
+                    action=action,
+                    path_cost=current_node.path_cost + 1
+                )
+                totalWeight = neighbor_node.path_cost + heuristic((new_row, new_col), goal)
+                exploredPending.add(neighbor_node, totalWeight)
+                total_neighbors += 1

@@ -50,7 +50,7 @@ class Priority:
     def add(self, element, priority):
         position = len(self.queue)  # por defecto va al final
         for i in range(len(self.queue)):
-            if priority > self.queue[i][1]:
+            if priority < self.queue[i][1]:  # menor valor es mejor porque queremos un camino corto
                 position = i
                 break
         self.queue.insert(position, (element, priority))
