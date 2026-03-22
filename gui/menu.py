@@ -1,6 +1,6 @@
 import pygame
 import sys
-from gui.constants import WINDOW_SIZE, SOLVING
+from gui.constants import WINDOW_SIZE, SOLVING, SPLASH
 from searchAlgorithms.bfs import bfs
 from searchAlgorithms.dfs import dfs
 from searchAlgorithms.greedy import greedy
@@ -23,6 +23,13 @@ class MenuScreen:
         self.maze = maze
         image = pygame.image.load("resources/menu.jpg")
         self.image = pygame.transform.scale(image, (WINDOW_SIZE, WINDOW_SIZE))
+        self.scanlines = self._build_scanlines()
+
+    def _build_scanlines(self):
+        surface = pygame.Surface((WINDOW_SIZE, WINDOW_SIZE), pygame.SRCALPHA)
+        for y in range(0, WINDOW_SIZE, 2):
+            pygame.draw.line(surface, (0, 0, 0, 80), (0, y), (WINDOW_SIZE, y))
+        return surface
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -30,6 +37,8 @@ class MenuScreen:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return (SPLASH, None)
                 if event.key in ALGORITHM_MAP:
                     algorithm, heuristic, name = ALGORITHM_MAP[event.key]
                     return (SOLVING, (algorithm, heuristic, name))
@@ -40,3 +49,4 @@ class MenuScreen:
 
     def draw(self):
         self.screen.blit(self.image, (0, 0))
+        self.screen.blit(self.scanlines, (0, 0))

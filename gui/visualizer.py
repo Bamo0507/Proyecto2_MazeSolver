@@ -15,6 +15,7 @@ class VisualizerScreen:
         self.maze = maze
 
         algorithm, heuristic, name = data
+        
         if heuristic:
             self.result = algorithm(maze, maze.start, maze.goal, heuristic)
         else:
@@ -28,6 +29,13 @@ class VisualizerScreen:
         self.cell_size = min(WINDOW_SIZE // maze.num_rows, WINDOW_SIZE // maze.num_cols)
         self.offset_x = (WINDOW_SIZE - maze.num_cols * self.cell_size) // 2
         self.offset_y = (WINDOW_SIZE - maze.num_rows * self.cell_size) // 2
+        self.scanlines = self._build_scanlines()
+
+    def _build_scanlines(self):
+        surface = pygame.Surface((WINDOW_SIZE, WINDOW_SIZE), pygame.SRCALPHA)
+        for y in range(0, WINDOW_SIZE, 2):
+            pygame.draw.line(surface, (0, 0, 0, 80), (0, y), (WINDOW_SIZE, y))
+        return surface
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -124,7 +132,4 @@ class VisualizerScreen:
         pygame.draw.rect(self.screen, COLOR_TEXT, border_rect, 2)
 
     def _draw_scanlines(self):
-        scanline_surface = pygame.Surface((WINDOW_SIZE, WINDOW_SIZE), pygame.SRCALPHA)
-        for y in range(0, WINDOW_SIZE, 2):
-            pygame.draw.line(scanline_surface, (0, 0, 0, 80), (0, y), (WINDOW_SIZE, y))
-        self.screen.blit(scanline_surface, (0, 0))
+        self.screen.blit(self.scanlines, (0, 0))

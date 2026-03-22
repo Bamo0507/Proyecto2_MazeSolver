@@ -5,7 +5,7 @@ from gui.splash import SplashScreen
 from gui.menu import MenuScreen
 from gui.visualizer import VisualizerScreen
 
-MAZE_FILE = "test_maze.txt"
+MAZE_FILE = "184806_maze.txt"
 
 
 def get_screen(state, screen, maze, data=None):
