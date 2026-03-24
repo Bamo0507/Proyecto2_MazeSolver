@@ -5,8 +5,7 @@ from gui.splash import SplashScreen
 from gui.menu import MenuScreen
 from gui.visualizer import VisualizerScreen
 
-MAZE_FILE = "184806_maze.txt"
-
+MAZE_FILE = "234746_maze.txt"
 
 def get_screen(state, screen, maze, data=None):
     if state == SPLASH:
@@ -40,6 +39,5 @@ def main():
             if new_state != current_state:
                 current_state = new_state
                 current_screen = get_screen(current_state, screen, maze, data)
-
 
 main()

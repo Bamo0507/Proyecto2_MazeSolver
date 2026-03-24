@@ -8,7 +8,7 @@ from searchAlgorithms.utils import reconstruct_path, ACTIONS
 
 def bfs(maze: Maze, start: tuple[int, int], goal: tuple[int, int]) -> SearchResult:
     exploredPending = FIFO()
-    explored = set()
+    explored = {start}
 
     start_node = Node(state=start)
     exploredPending.add(start_node)
@@ -34,11 +34,6 @@ def bfs(maze: Maze, start: tuple[int, int], goal: tuple[int, int]) -> SearchResu
                 explored_order=explored_order
             )
 
-        if current_node.state in explored:
-            # no repetimos nodos ya explorados
-            continue
-
-        explored.add(current_node.state)
         nodes_explored += 1
         explored_order.append(current_node.state)
 
@@ -47,6 +42,7 @@ def bfs(maze: Maze, start: tuple[int, int], goal: tuple[int, int]) -> SearchResu
             new_col = current_node.state[1] + action[1]
 
             if maze.is_walkable(new_row, new_col) and (new_row, new_col) not in explored:
+                explored.add((new_row, new_col))
                 neighbor_node = Node(
                     state=(new_row, new_col),
                     parent=current_node,

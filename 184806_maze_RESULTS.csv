@@ -1,0 +1,7 @@
+algorithm,path_length,nodes_explored,execution_time,branching_factor
+BFS,121,608,0.000587,1.0099
+DFS,121,487,0.000491,1.1253
+Greedy Manhattan,121,353,0.00051,1.4221
+Greedy Euclidean,125,371,0.000556,1.4367
+A* Manhattan,121,472,0.000681,1.3686
+A* Euclidean,121,503,0.000746,1.3479

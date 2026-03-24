@@ -8,7 +8,6 @@ ANIMATING = "animating"
 SHOWING_PATH = "showing_path"
 DONE = "done"
 
-
 class VisualizerScreen:
     def __init__(self, screen, maze, data):
         self.screen = screen
@@ -113,7 +112,7 @@ class VisualizerScreen:
 
         lines = [
             f"{self.name}",
-            f"Nodes: {self.result.nodes_explored}  |  Path: {len(self.result.path)}  |  Time: {self.result.execution_time:.4f}s  |  BF: {self.result.branching_factor:.2f}"
+            f"Nodes: {self.result.nodes_explored}  |  Path: {len(self.result.path)}  |  Time: {self.result.execution_time:.4f}s  |  BF: {self.result.branching_factor:.4f}"
         ]
 
         for i, line in enumerate(lines):
